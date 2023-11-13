@@ -1,0 +1,78 @@
+@page "/groups"
+
+<div class="d-flex justify-content-between">
+    <h1>Groups</h1>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addEditGroupModal">Add group</button>
+</div>
+
+@if (_groups != null)
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var group in _groups)
+        {
+            <tr>
+                <td>@group.Id</td>
+                <td>@group.Name</td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" disabled="" data-bs-target="#addEditGroupModal" @onclick="() => Edit(group)">Edit</button>
+                    <button type="button" class="btn btn-danger" disabled="" @onclick="() => Delete(group)">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="addEditGroupModal" tabindex="-1" aria-labelledby="addEditGroupModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEditGroupModalLabel">Add user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@_createOrEditGroupModel" OnValidSubmit="@OnSubmit">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                    <label for="groupName" class="form-label">Group name</label>
+                    <InputText id="groupName" class="form-control" placeholder="Sales" @bind-Value="_createOrEditGroupModel.Name"/>
+
+                    <label for="profileImage" class="form-label">Description</label>
+                    <InputText id="profileImage" class="form-control" placeholder="Responsible for selling Porcupine's products." @bind-Value="_createOrEditGroupModel.Description"/>
+
+                    <hr class="my-3"/>
+                    <h3>Permissions</h3>
+                    <p>Select permissions to add to group</p>
+                    @foreach (var permission in _selectablePermissions ?? Enumerable.Empty<SelectablePermission>())
+                    {
+                        <div class="form-check">
+                            <InputCheckbox class="form-check-input" id="@permission.Name" @bind-Value=permission.Selected/>
+                            <label for="@permission.Name" class="form-check-label">@permission.Name</label>
+                        </div>
+                    }
+
+                    <hr class="my-3"/>
+                    <div class="d-flex align-items-center py-1 px-2 border-warning rounded"
+                         style="background: #e3e380">
+                        <span style="font-size: 60px; margin-right: 10px">⚠️</span>
+                        <span style="font-size: 80%">Close this modal manually when done, I was still fiddling with C# Javascript interop to automatically close this model when you click on add. Sorry for the incovenience.</span>
+                    </div>
+                    <hr class="my-3"/>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
