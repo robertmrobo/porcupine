@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Porcupine.Robert.Mrobo.IAM.Groups.Models;
 using Porcupine.Robert.Mrobo.IAM.Persistence;
+using Porcupine.Robert.Mrobo.IAM.Users.Models;
 
 namespace Porcupine.Robert.Mrobo.Api.Integration.Tests;
 
@@ -38,11 +39,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
                 try
                 {
-                    db.Groups.Add(new Group
-                    {
-                        Id = 1,
-                        Name = "Test Group 1"
-                    });
+                    db.Groups.AddRange(CreateGroups());
+                    db.Users.AddRange(CreateUsers());
 
                     db.SaveChanges();
                 }
@@ -52,5 +50,35 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 }
             }
         });
+    }
+
+    private static IEnumerable<User> CreateUsers()
+    {
+        var users = new List<User>();
+        for(var i = 1; i < 6; i++)
+        {
+            users.Add(new User
+            {
+                Id = i,
+                Name = $"Test User {i}"
+            });
+        }
+
+        return users;
+    }
+    
+    private static IEnumerable<Group> CreateGroups()
+    {
+        var groups = new List<Group>();
+        for(var i = 1; i < 6; i++)
+        {
+            groups.Add(new Group
+            {
+                Id = i,
+                Name = $"Test Group {i}"
+            });
+        }
+
+        return groups;
     }
 }

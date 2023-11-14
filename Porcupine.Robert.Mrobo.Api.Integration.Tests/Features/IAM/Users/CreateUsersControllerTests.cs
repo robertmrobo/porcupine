@@ -1,10 +1,10 @@
 using System.Text;
+using System.Text.Json;
 using Porcupine.Robert.Mrobo.Api.Features.IAM.Users.CreateUser;
 using Porcupine.Robert.Mrobo.Api.Features.IAM.Users.GetUser;
-using System.Text.Json;
 using Shouldly;
 
-namespace Porcupine.Robert.Mrobo.Api.Integration.Tests.Features.IAM.Users.CreateUsers
+namespace Porcupine.Robert.Mrobo.Api.Integration.Tests.Features.IAM.Users
 {
     public class CreateUserControllerTests : IClassFixture<CustomWebApplicationFactory>
     {
