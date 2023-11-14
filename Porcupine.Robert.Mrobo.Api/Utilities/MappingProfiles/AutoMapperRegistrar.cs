@@ -9,7 +9,7 @@ public class AutoMapperRegistrar : IRegistrar
     {
         var mapper = new MapperConfiguration(c =>
         {
-            c.AddProfile(new SharedMapperProfile());
+            c.AddProfile(new MapperProfile());
         }).CreateMapper();
         
         builder.Services.AddSingleton(mapper);

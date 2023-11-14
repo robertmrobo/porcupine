@@ -4,13 +4,13 @@ using Porcupine.Robert.Mrobo.Api.Features.IAM.Groups.GetGroups;
 using Porcupine.Robert.Mrobo.Api.Features.Shared;
 using Porcupine.Robert.Mrobo.Api.Features.Shared.Constants;
 using Porcupine.Robert.Mrobo.IAM.Groups.GetGroup;
-using Porcupine.Robert.Mrobo.IAM.Groups.Models;
 
 namespace Porcupine.Robert.Mrobo.Api.Features.IAM.Groups.GetGroup;
 
 /// <summary>
 /// Represents a controller responsible for getting a single group.
 /// </summary>
+[OpenApiTag(OpenApiTagConstants.Groups)]
 public class GetGroupController : ApiControllerBase
 {
     /// <summary>
@@ -23,7 +23,6 @@ public class GetGroupController : ApiControllerBase
     [HttpGet("groups/{id:int}")]
     [ProducesResponseType(typeof(GetGroupResult), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [OpenApiTag(OpenApiTagConstants.Groups)]
     public async Task<ActionResult<GetGroupResult>> GetGroup([FromRoute] int id)
     {
         var group = await Mediator.Send(new GetGroupQuery { Id = id });

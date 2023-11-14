@@ -1,0 +1,80 @@
+@page "/permissions"
+
+<div class="d-flex justify-content-between">
+    <h1>Permissions</h1>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addEditPermissionModal">Add permission</button>
+</div>
+
+@if (_permissions != null)
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var permission in _permissions)
+        {
+            <tr>
+                <td>@permission.Id</td>
+                <td>@permission.Name</td>
+                <td>@permission.Description</td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" disabled="" data-bs-target="#addEditPermissionModal" @onclick="() => Edit(permission)">Edit</button>
+                    <button type="button" class="btn btn-danger" disabled="" @onclick="() => Delete(permission)">Delete</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="addEditPermissionModal" tabindex="-1" aria-labelledby="addEditPermissionModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEditPermissionModalLabel">Add permission</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@_createEditPermissionModel" OnValidSubmit="@OnSubmit">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                    <label for="permissionName" class="form-label">Permission name</label>
+                    <InputText id="permissionName" class="form-control" placeholder="Main gate" @bind-Value="_createEditPermissionModel.Name"/>
+
+                    <label for="profileImage" class="form-label">Description</label>
+                    <InputText id="profileImage" class="form-control" placeholder="Access to the campus main gate" @bind-Value="_createEditPermissionModel.Description"/>
+
+                    <hr class="my-3"/>
+                    
+                    <div class="d-flex align-items-center py-1 px-2 border-warning rounded"
+                         style="background: #e3e380">
+                        <span style="font-size: 60px; margin-right: 10px">⚠️</span>
+                        <span style="font-size: 80%">Close this modal manually when done, I was still fiddling with C# Javascript interop to automatically close this model when you click on add. Sorry for the incovenience.</span>
+                    </div>
+                    <hr class="my-3"/>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom-badge{
+        background-color: #007bff;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+</style>

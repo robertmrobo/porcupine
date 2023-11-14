@@ -26,7 +26,7 @@ public class CreateGroupController : ApiControllerBase
         {
             Name = model.Name,
             Description = model.Description,
-            PermissionsIds = model.PermissionsIds
+            PermissionsIds = model.Permissions
         });
 
         var routeValues = new

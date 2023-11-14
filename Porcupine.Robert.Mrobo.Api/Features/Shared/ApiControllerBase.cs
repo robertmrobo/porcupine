@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Porcupine.Robert.Mrobo.Api.Features.Shared;
 
-
 [Route("api/v1")]
-public class ApiControllerBase : ControllerBase
+public abstract class ApiControllerBase : ControllerBase
 {
     private IMediator? _mediator;
     private IMapper? _mapper;

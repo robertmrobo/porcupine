@@ -1,0 +1,38 @@
+@page "/groups/edit/{Id}"
+@using Porcupine.Robert.Mrobo.Portal.IAM.Permissions
+@using Porcupine.Robert.Mrobo.Portal.IAM.Permissions.Models
+
+@{
+    var groupName = string.IsNullOrEmpty(_createOrEditGroupModel.Name)
+        ? string.Empty
+        : $": {_createOrEditGroupModel.Name}";
+}
+
+<h3>Edit Group @groupName</h3>
+
+<EditForm Model="@_createOrEditGroupModel" OnValidSubmit="@OnSubmit">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <label for="groupName" class="form-label">Group name</label>
+    <InputText id="groupName" class="form-control" placeholder="Sales" @bind-Value="_createOrEditGroupModel.Name"/>
+
+    <label for="profileImage" class="form-label">Description</label>
+    <InputText id="profileImage" class="form-control" placeholder="Responsible for selling Porcupine's products." @bind-Value="_createOrEditGroupModel.Description"/>
+
+    <hr class="my-3"/>
+    <h3>Permissions</h3>
+    <p>Select permissions to add to group</p>
+    @foreach (var permission in _selectablePermissions ?? Enumerable.Empty<SelectablePermission>())
+    {
+        <div class="form-check">
+            <InputCheckbox class="form-check-input" id="@permission.Name" @bind-Value=permission.Selected></InputCheckbox>
+            <label for="@permission.Name" class="form-check-label">@permission.Name</label>
+        </div>
+    }
+    
+    <hr class="my-3"/>
+    <div class="d-flex justify-content-end">
+        <a href="/groups" type="button" class="btn btn-secondary mx-2">Cancel</a>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</EditForm>

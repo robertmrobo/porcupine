@@ -112,13 +112,13 @@ namespace Porcupine.Robert.Mrobo.IAM.Migrations
             modelBuilder.Entity("Porcupine.Robert.Mrobo.IAM.Permissions.Models.Permission", b =>
                 {
                     b.HasOne("Porcupine.Robert.Mrobo.IAM.Groups.Models.Group", null)
-                        .WithMany("GroupPermissions")
+                        .WithMany("Permissions")
                         .HasForeignKey("GroupId");
                 });
 
             modelBuilder.Entity("Porcupine.Robert.Mrobo.IAM.Groups.Models.Group", b =>
                 {
-                    b.Navigation("GroupPermissions");
+                    b.Navigation("Permissions");
                 });
 #pragma warning restore 612, 618
         }

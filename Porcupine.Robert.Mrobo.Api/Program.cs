@@ -25,3 +25,11 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+namespace Porcupine.Robert.Mrobo.Api
+{
+    /// <summary>
+    /// Assembly marker code. To help with the discovery of this assembly by the Integration Tests project.
+    /// </summary>
+    public partial class Program { }
+}

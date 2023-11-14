@@ -1,7 +1,10 @@
 @page "/groups"
+@using Porcupine.Robert.Mrobo.Portal.IAM.Permissions
+@using Porcupine.Robert.Mrobo.Portal.IAM.Permissions.Models
 
 <div class="d-flex justify-content-between">
-    <h1>Groups</h1>
+    @{ var groupsCount = _groups?.Count ?? 0; }
+    <h1>Groups (@groupsCount) </h1>
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addEditGroupModal">Add group</button>
 </div>
 
@@ -12,6 +15,9 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Description</th>
+            <th class="text-center">No. of Users</th>
+            <th>Permissions</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -21,9 +27,19 @@
             <tr>
                 <td>@group.Id</td>
                 <td>@group.Name</td>
+                <td>@group.Description</td>
+                @{ var userCount = _groupUsersCount?.FirstOrDefault(g => g.GroupId == group.Id)?.UserCount ?? 0; }
+                <td class="text-center">@userCount</td>
                 <td>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" disabled="" data-bs-target="#addEditGroupModal" @onclick="() => Edit(group)">Edit</button>
-                    <button type="button" class="btn btn-danger" disabled="" @onclick="() => Delete(group)">Delete</button>
+                    @foreach (var permission in group.Permissions)
+                    {
+                        <span class="custom-badge m-1">@permission.Name</span>
+                    }
+                </td>
+                <td>
+                    @{ var editGroupUrl = $"groups/edit/{group.Id}"; }
+                    <a href="@editGroupUrl" type="button" class="btn btn-primary">Edit</a>
+                    <button type="button" class="btn btn-danger" @onclick="() => Delete(group)">Delete</button>
                 </td>
             </tr>
         }
@@ -36,7 +52,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addEditGroupModalLabel">Add user</h5>
+                <h5 class="modal-title" id="addEditGroupModalLabel">Add group</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -55,7 +71,7 @@
                     @foreach (var permission in _selectablePermissions ?? Enumerable.Empty<SelectablePermission>())
                     {
                         <div class="form-check">
-                            <InputCheckbox class="form-check-input" id="@permission.Name" @bind-Value=permission.Selected/>
+                            <InputCheckbox class="form-check-input" id="@permission.Name" @bind-Value=permission.Selected></InputCheckbox>
                             <label for="@permission.Name" class="form-check-label">@permission.Name</label>
                         </div>
                     }

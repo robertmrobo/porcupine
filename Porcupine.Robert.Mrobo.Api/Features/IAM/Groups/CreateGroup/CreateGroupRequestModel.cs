@@ -9,5 +9,5 @@ public record CreateGroupRequestModel
     
     public string Description { get; init; } = string.Empty;
 
-    public List<int> PermissionsIds { get; init; } = new List<int>();
+    public List<int> Permissions { get; init; } = new List<int>();
 }
